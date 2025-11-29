@@ -1,0 +1,12 @@
+# Core dependencies
+requests>=2.31.0
+python-dotenv>=1.0.0
+Pillow>=10.0.0
+
+# Optional dependencies for multimodal features
+# Uncomment the ones you need
+# torch>=2.0.0
+# torchaudio>=2.0.0
+# transformers>=4.30.0
+# opencv-python>=4.7.0
+# numpy>=1.24.0
