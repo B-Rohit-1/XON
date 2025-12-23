@@ -1,0 +1,33 @@
+# config.yaml
+models:
+  - name: "gpt-4"
+    model_id: "gpt-4"
+    task_type: "chat"
+    description: "OpenAI's GPT-4 for general chat"
+    source: "api"
+    api_base: "https://api.openai.com/v1"
+    parameters:
+      temperature: 0.7
+      max_tokens: 2000
+    is_default: true
+
+  - name: "gpt-3.5-turbo"
+    model_id: "gpt-3.5-turbo"
+    task_type: "chat"
+    description: "OpenAI's GPT-3.5 Turbo for faster responses"
+    source: "api"
+    api_base: "https://api.openai.com/v1"
+    parameters:
+      temperature: 0.7
+      max_tokens: 2000
+
+# API Configuration (or use environment variables)
+api_config:
+  openai_api_key: "${OPENAI_API_KEY}"
+  anthropic_api_key: "${ANTHROPIC_API_KEY}"
+
+# Application settings
+app:
+  default_models:
+    chat: "gpt-4"
+    code: "gpt-4"

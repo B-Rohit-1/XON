@@ -1,12 +1,17 @@
-# Xon AI Agent
+# Xon AI Code Assistant
 
-A powerful AI agent with multimodal capabilities including text, image, and audio processing, powered by local LLMs via Ollama.
+A powerful, multimodal AI assistant with specialized models for different tasks, built on top of Ollama's local LLMs.
 
 ## Features
 
-- **Text Generation**: Chat with various language models
-- **Image Understanding**: Process and analyze images using LLaVA
-- **Audio Processing**: Transcribe audio using Whisper
+- **Multimodal Support**: Text, code, vision, and audio processing
+- **Model Management**: Easily switch between different AI models
+- **Code Generation**: Generate code from natural language descriptions
+- **Code Debugging**: Identify and fix issues in your code
+- **Image Understanding**: Analyze and describe images
+- **Audio Processing**: Transcribe and understand audio content
+- **File Management**: Load and save files directly
+- **Interactive Shell**: Simple command-line interface
 - **Local-First**: Runs entirely on your machine for privacy
 
 ## Prerequisites
@@ -54,17 +59,42 @@ A powerful AI agent with multimodal capabilities including text, image, and audi
 
 2. In a new terminal, download the required models:
    ```bash
-   # For text generation (choose one)
-   ollama pull llama3.2:3b  # Smaller, faster
-   # or
-   ollama pull llama3.2:7b  # Larger, better quality
-
-   # For image understanding
-   ollama pull llava:latest
-
-   # For audio transcription
-   ollama pull whisper:latest
+   # General purpose chat
+   ollama pull llama3:8b
+   
+   # Code generation and understanding
+   ollama pull codellama:7b
+   
+   # Multimodal (image understanding)
+   ollama pull llava:7b
+   
+   # Audio processing
+   ollama pull whisper:base
+   
+   # Embeddings
+   ollama pull mxbai-embed-large
    ```
+
+## Available Models
+
+Xon AI comes with several pre-configured models for different tasks:
+
+### Chat Models
+- **llama3-8b**: General purpose chat model, good for most tasks
+- **llama3-70b**: Larger, more capable model (requires more RAM/VRAM)
+
+### Code Models
+- **codellama-7b**: Specialized for code generation and understanding
+- **codellama-13b**: Larger version with better performance
+
+### Vision Models
+- **llava-7b**: Multimodal model for image understanding
+
+### Audio Models
+- **whisper-base**: Speech recognition and audio processing
+
+### Embedding Models
+- **mxbai-embed-large**: High-quality text embeddings for semantic search
 
 ## Configuration
 
@@ -73,7 +103,13 @@ Create a `.env` file in the project root with your settings:
 ```env
 # Ollama settings
 OLLAMA_HOST=http://localhost:11434
-DEFAULT_MODEL=llama3.2:3b
+
+# Default models for different tasks
+DEFAULT_CHAT_MODEL=llama3-8b
+DEFAULT_CODE_MODEL=codellama-7b
+DEFAULT_VISION_MODEL=llava-7b
+DEFAULT_AUDIO_MODEL=whisper-base
+DEFAULT_EMBEDDING_MODEL=mxbai-embed-large
 
 # Optional: Set to your preferred language (e.g., 'en', 'es', 'fr')
 LANGUAGE=en
@@ -88,9 +124,52 @@ LANGUAGE=en
 
 2. Interact with the agent using these commands:
    - `your message` - Chat with text
-   - `image:/path/to/image.jpg` - Process an image
-   - `audio:/path/to/audio.mp3` - Transcribe audio
+   - `code your request` - Generate or modify code
+   - `debug your code` - Debug code with error messages
+   - `load filename` - Load a file for processing
+   - `models` - List available models
+   - `models set default <task_type> <model_name>` - Set default model for a task
    - `quit` or `exit` - Close the application
+
+### Model Management
+
+List all available models:
+```
+models
+```
+
+Set default model for a specific task type:
+```
+models set default chat llama3-8b
+models set default code codellama-7b
+models set default vision llava-7b
+models set default audio whisper-base
+```
+
+### Examples
+
+Chat with the assistant:
+```
+Hello! How can you help me today?
+```
+
+Generate Python code:
+```
+code write a function to calculate factorial
+```
+
+Debug code:
+```
+debug def test():
+    x = 5
+    return x + '2'  # This will cause a type error
+```
+
+Analyze an image:
+```
+load image.jpg
+What's in this image?
+```
 
 ## Development
 
@@ -98,10 +177,19 @@ LANGUAGE=en
 
 - `agent.py` - Main agent class handling all interactions
 - `ollama_client.py` - Client for communicating with Ollama API
-- `multimodal_handler.py` - Handles image and audio processing
+- `model_manager.py` - Manages different AI models and their configurations
+- `coding_agent.py` - Specialized agent for code-related tasks
 - `main.py` - Command-line interface
 - `requirements.txt` - Python dependencies
 - `.env` - Configuration (not version controlled)
+
+### Model Configuration
+
+The `model_manager.py` file contains the `ModelManager` class that handles all model-related operations. It includes:
+- Model configurations with parameters
+- Default model settings
+- Methods to list, add, and modify models
+- Support for different task types (chat, code, vision, audio, embedding)
 
 ### Adding New Features
 
